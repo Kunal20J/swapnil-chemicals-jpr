@@ -1,5 +1,5 @@
   <!doctype html>
-  <!-- Home 10-05-26  -->
+  <!-- Home 19-05-26  -->
   <html lang="en">
 
     <head>
@@ -8,7 +8,7 @@
       <title>Swapnil Chemicals</title>
       <link rel="icon" type="image/jpeg" href="SC Logo.jpg" />
       <link rel="apple-touch-icon" href="SC Logo.jpg" />
-      <meta name="description" content="Swapnil Chemicals - Leading manufacturers of home cleaning products in Jaipur. Bulk & retail. Dashboard polish, tyre polish, car wash & more." />
+      <meta name="description" content="Swapnil Chemicals - Leading manufacturers of automobile cleaning products in Jaipur. Bulk & retail. Dashboard polish, tyre polish, car wash & more." />
       <meta name="keywords" content="automobile cleaning, car cleaning, dashboard polish, tyre polish, car wash, glass cleaner, Jaipur manufacturer" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
       <script src="https://cdn.tailwindcss.com"></script>
@@ -73,16 +73,22 @@
         }
 
         .product-card {
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background: rgba(255, 255, 255, 0.78);
+          backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 24px;
+          overflow: hidden;
+          transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
 
         .product-card:hover {
-          transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-          background: rgba(255, 255, 255, 1);
+          transform: translateY(-10px) scale(1.02);
+          box-shadow:
+            0 25px 60px rgba(59, 130, 246, 0.18),
+            0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
         .product-image-container {
@@ -383,7 +389,6 @@
           box-shadow: 0 6px 18px rgba(249, 115, 22, 0.4);
         }
 
-        /* CART STYLES */
         .cart-icon-btn {
           position: relative;
           top: auto;
@@ -424,7 +429,6 @@
           align-items: center;
           justify-content: center;
           padding: 0 4px;
-          /* custom 07-05-26 */
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -546,7 +550,6 @@
           transform: translateY(-1px);
         }
 
-        /* ENQUIRY MODAL */
         #enquiryModal {
           display: none;
           position: fixed;
@@ -613,7 +616,7 @@
 
         .enquiry-close-btn:hover {
           background: rgba(255, 255, 255, 0.28);
-          transform: rotate(90deg);
+          transform: scale(1.08);
         }
 
         .enquiry-body {
@@ -697,8 +700,6 @@
           margin-top: 8px;
         }
 
-        /* custom 07-05-266 */
-        /* Flying cart animation */
         .fly-item {
           position: fixed;
           width: 100px;
@@ -917,7 +918,6 @@
         </div>
       </footer>
 
-      <!-- FLOATING CART BUTTON & PANEL -->
       <div class="cart-panel hidden" id="cartPanel">
         <div class="cart-panel-header">
           <div>
@@ -942,7 +942,6 @@
         </div>
       </div>
 
-      <!-- ENQUIRY MODAL -->
       <div id="enquiryModal">
         <div class="enquiry-modal-box">
           <div class="enquiry-modal-header">
@@ -972,7 +971,6 @@
       </div>
 
       <script>
-        // ----- PRODUCTS DATA -----
         const products = [{
             id: 1,
             name: "Handcare",
@@ -1017,12 +1015,11 @@
             price: 130,
             unit: "Lt",
             hasLtOptions: true,
-          },
+          }
         ];
         const LT_OPTIONS = [10, 35, 50];
-        // ----- CART SYSTEM -----
         let cart = {};
-        // custom 08-05-26
+
         function addToCart(productId) {
           flyToCart(productId);
           const product = products.find(p => p.id === productId);
@@ -1041,7 +1038,6 @@
             selectedQty
           };
           localStorage.setItem('sc_cart_home', JSON.stringify(cart));
-          // ✅ Badge/UI update sirf tab hoga jab item cart tak pahunch jaye
           setTimeout(() => {
             updateCartUI();
           }, 2200);
@@ -1073,7 +1069,11 @@
             const totalQty = selectedQty * qty;
             const lineTotal = product.price * totalQty;
             grandTotal += lineTotal;
-            const qLabel = (product.hasLtOptions && !product.qtyOptions) ? ' Lt' : (product.qtyOptions ? (product.qtyLabel || ' pcs') : '');
+            const qLabel = (product.hasLtOptions && !product.qtyOptions) ?
+              ' Lt' :
+              (product.qtyOptions ?
+                (product.qtyLabel || ' pcs') :
+                ' pcs');
             itemsHTML += `<div class="cart-item-row"><div style="flex:1"><p style="font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.name}</p>
               
              <p style="font-size:11px;color:#64748b;">${totalQty}${qLabel} × ₹${product.price}/${qLabel.trim()} </p>
@@ -1126,21 +1126,19 @@
         function toggleCart() {
           document.getElementById('cartPanel').classList.toggle('hidden');
         }
-        // custom 07-05-26
+
         function flyToCart(productId) {
           const card = document.querySelector(`[data-product-id="${productId}"]`);
           const cartBtn = document.querySelector('.cart-icon-btn');
           if (!card || !cartBtn) return;
           const cardRect = card.getBoundingClientRect();
           const cartRect = cartBtn.getBoundingClientRect();
-          // custom 07-05-26
           const flyEl = document.createElement('div');
           flyEl.className = 'fly-item';
           flyEl.innerHTML = '<i class="fas fa-box"></i>';
           flyEl.style.left = (cardRect.left + cardRect.width / 2 - 40) + 'px';
           flyEl.style.top = (cardRect.top + cardRect.height / 2 - 40) + 'px';
           document.body.appendChild(flyEl);
-          // Cart button ka center
           const targetX = cartRect.left + cartRect.width / 2 - 25;
           const targetY = cartRect.top + cartRect.height / 2 - 25;
           requestAnimationFrame(() => {
@@ -1158,10 +1156,9 @@
               badge.style.transform = 'scale(1.8)';
               setTimeout(() => badge.style.transform = 'scale(1)', 300);
             }
-            // }, 800);
-          }, 2200); // custom 07-05-26
+          }, 2200);
         }
-        // new code 07-05-26
+
         function openCartEnquiry() {
           let productsHtml = "";
           let totalAmount = 0;
@@ -1169,7 +1166,9 @@
             const item = cart[key];
             const product = item.product;
             const qty = item.selectedQty * item.qty;
-            const label = product.qtyLabel || "Lt";
+            const label = product.hasLtOptions && !product.qtyOptions ?
+              "Lt" :
+              (product.qtyLabel || "pcs");
             const lineTotal = product.price * qty;
             totalAmount += lineTotal;
             productsHtml += `
@@ -1188,8 +1187,8 @@
                   </p>
 
                   <p class="text-sm font-semibold text-blue-600 mt-1">
-                      ${qty} ${label} × ₹${product.price}
-                  </p>
+                  ${qty} ${label} × ₹${product.price}/${label.trim()}
+                 </p>
               </div>
 
           </div>
@@ -1246,7 +1245,7 @@
           document.getElementById('enquiryModal').classList.add('show');
           document.body.style.overflow = 'hidden';
         }
-        // custom 07-05-26
+
         function submitCartEnquiry() {
           const phone =
             document.getElementById('cart-enquiry-phone').value.trim();
@@ -1263,10 +1262,11 @@
             const item = cart[key];
             const product = item.product;
             const qty = item.selectedQty * item.qty;
-            const label = product.qtyLabel || "Lt";
+            const label = product.hasLtOptions && !product.qtyOptions ?
+              "Lt" :
+              (product.qtyLabel || "pcs");
             const lineTotal = product.price * qty;
             grandTotal += lineTotal;
-            // custom 07-05-26
             msg += `📦 ${product.name} - Qty: ${qty} ${label}, Price: ₹${product.price} = Total: ₹${lineTotal}%0A`;
           });
           msg += `%0A📝 Details: ${details}`;
@@ -1290,7 +1290,7 @@
             }, 1500);
           }
         }
-        // ----- PRODUCT CARD RENDER (with qty selector + add-to-cart + enquiry button)-----
+
         function createProductCard(product) {
           const hasLt = product.hasLtOptions;
           const qtyOpts = product.qtyOptions || LT_OPTIONS;
@@ -1317,7 +1317,6 @@
           const container = document.getElementById('productsGrid');
           if (container) container.innerHTML = products.map(p => createProductCard(p)).join('');
         }
-        // ----- ENQUIRY MODAL (original preserved) -----
         let currentEnquiryProduct = null;
 
         function openEnquiryModal(product) {
